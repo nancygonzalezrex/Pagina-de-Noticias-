@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Periódico El Faro</title>
+
+    <style>
+      /* --- 1. PORTADA INICIAL --- */
+      .pantalla-entrada {
+        width: 100%;
+        height: 100vh;
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+          url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzsoqknxvrOlJ6nzQ4AEciNae60-DRTAN9mQ&s");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* OCULTAR PORTADA AL ENTRAR AL DIARIO */
+      body:has(.seccion:target) .pantalla-entrada,
+      body:has(header:target) .pantalla-entrada {
+        display: none;
+      }
+
+      .logo-portada-grande {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 5px solid #d4af37;
+        margin-bottom: 15px;
+        background-color: white;
+        object-fit: cover;
+      }
+
+      .boton-entrar {
+        display: inline-block;
+        padding: 15px 45px;
+        background-color: #d4af37;
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        transition: 0.3s;
+      }
+
+      .boton-entrar:hover {
+        background-color: white;
+        transform: scale(1.05);
+      }
+
+      .integrantes-portada {
+        margin-top: 20px;
+        background: rgba(0, 51, 102, 0.85);
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #d4af37;
+        width: 95%;
+        max-width: 500px;
+      }
+
+      /* --- 2. ESTILOS DEL DIARIO --- */
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Ocultar diario por defecto */
+      header,
+      nav,
+      .container {
+        display: none;
+      }
+
+      /* Mostrar diario al activar secciones */
+      body:has(.seccion:target) header,
+      body:has(header:target) header,
+      body:has(.seccion:target) nav,
+      body:has(header:target) nav,
+      body:has(.seccion:target) .container,
+      body:has(header:target) .container {
+        display: block;
+      }
+
+      header {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+          url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzsoqknxvrOlJ6nzQ4AEciNae60-DRTAN9mQ&s");
+        background-size: cover;
+        padding: 40px 20px;
+        color: white;
+        text-align: center;
+        border-bottom: 5px solid #d4af37;
+      }
+
+      .logo-insertado {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid #d4af37;
+        background-color: white;
+        margin-bottom: 10px;
+      }
+
+      nav {
+        background-color: #222;
+        display: flex;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      body:has(.seccion:target) nav,
+      body:has(header:target) nav {
+        display: flex;
+      }
+
+      nav a {
+        color: white;
+        padding: 15px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      nav a:hover {
+        background-color: #d4af37;
+        color: black;
+      }
+
+      /* --- 3. CONTENEDOR Y SECCIONES --- */
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+      }
+
+      .seccion {
+        scroll-margin-top: 350px;
+        display: none;
+        padding: 40px;
+        background-size: cover;
+        background-position: center;
+        min-height: 500px;
+      }
+
+      .seccion:target {
+        display: block;
+        animation: fadeIn 0.6s ease-in-out;
+      }
+
+      header:target ~ .container #inicio {
+        display: flex;
+      }
+
+      .contenido-noticia {
+        padding: 40px 20px;
+      }
+
+      #inicio {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+          url("https://images.vexels.com/media/users/3/146981/raw/436d0b678049b2c224276a55dd9240c8-diseno-de-encabezado-de-noticias-de-ultima-hora.jpg");
+      }
+      #deportes {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+          url("https://png.pngtree.com/thumb_back/fh260/back_pic/04/07/48/465811cc88e057c.jpg");
+      }
+      #negocios {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+          url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHR2mUEtyIr350jug09YHFd39W09Dac0-5UQ&s");
+      }
+
+      /* TABLAS */
+      .table-wrapper {
+        overflow-x: auto;
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.95);
+        min-width: 600px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #0a3d62;
+        color: white;
+      }
+
+      .video-container {
+        max-width: 500px;
+        margin: 20px auto;
+      }
+      .video-container iframe {
+        width: 100%;
+        aspect-ratio: 16/9;
+      }
+
+      .footer-portada {
+        margin-top: 30px;
+        width: 100%;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+        font-size: 0.9rem;
+        border-top: 1px solid rgba(212, 175, 55, 0.3);
+        padding-top: 15px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="pantalla-entrada">
+      <img
+        src="https://img.freepik.com/vector-premium/ilustracion-plantilla-diseno-logotipo-faro_260747-107.jpg"
+        class="logo-portada-grande"
+      />
+      <h1>Periódico El Faro</h1>
+      <p>La guía de noticias que necesitas</p>
+      <a href="#cabecera-periodico" class="boton-entrar">Entrar</a>
+
+      <div class="integrantes-portada">
+        <h3 style="margin: 0; color: #d4af37">GRUPO 01</h3>
+        <p>Nancy González • Verónica Maldonado • Gonzalo Maldonado</p>
+        <p>Marcelo Hormazábal • Nelson Caraballo • Felipe González</p>
+      </div>
+
+      <div class="footer-portada">
+        &copy; 2026 Periódico El Faro - PRO301 Grupo 01
+      </div>
+    </section>
+
+    <header id="cabecera-periodico">
+      <img
+        src="https://img.freepik.com/vector-premium/ilustracion-plantilla-diseno-logotipo-faro_260747-107.jpg"
+        class="logo-insertado"
+      />
+      <h1>Periódico El Faro</h1>
+      <p>La guía de noticias que necesitas</p>
+    </header>
+
+    <nav>
+      <a href="#pantalla-entrada">Portada</a>
+      <a href="#inicio">Inicio</a>
+      <a href="#deportes">Deportes</a>
+      <a href="#negocios">Negocios</a>
+    </nav>
+
+    <div class="container">
+      <section id="inicio" class="seccion">
+        <div class="contenido-noticia">
+          <h2>Noticias</h2>
+          <div class="table-wrapper">
+            <table>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Artículo</th>
+              </tr>
+              <tr>
+                <td>Gobierno anuncia aporte en gas</td>
+                <td>Nacional</td>
+                <td>
+                  Este será un aporte directo de un balón de 15 kg de gas
+                  licuado por familia que pertenezca al 80% más vulnerable del
+                  Registro Social de Hogares (RSH).
+                </td>
+              </tr>
+              <tr>
+                <td>Kast por violencia escolar</td>
+                <td>Nacional</td>
+                <td>
+                  “Necesitamos que los jóvenes respeten a sus profesores. Lo que
+                  hemos visto en estos días es dramático y lo que ocurrió tras
+                  el asesinato de una inspectora en Calama demuestra que la
+                  violencia está presente en los establecimientos. Todos debemos
+                  ser responsables de detener esto”, señaló.
+                </td>
+              </tr>
+              <tr>
+                <td>Trump asegura que Irán le pidió un "alto al fuego"</td>
+                <td>Internacional</td>
+                <td>
+                  Trump indicó que el nuevo líder iraní habría solicitado un
+                  alto al fuego, señalando que evaluarán la situación según las
+                  condiciones del conflicto internacional.
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>Video</h3>
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube.com/embed/7K4wXt01xE4"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3>Audio</h3>
+          <audio
+            controls
+            style="width: 100%; max-width: 400px; display: block; margin: auto"
+          >
+            <source
+              src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
+        </div>
+      </section>
+
+      <section id="deportes" class="seccion">
+        <div class="contenido-noticia">
+          <h2>Deportes</h2>
+          <div class="table-wrapper">
+            <table>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Artículo</th>
+              </tr>
+              <tr>
+                <td>UC envía propuesta de partido con Boca</td>
+                <td>Fútbol</td>
+                <td>
+                  El duelo entre Universidad Católica y Boca Juniors por la Copa
+                  Libertadores sigue generando polémica respecto al estadio
+                  donde se disputará el encuentro.
+                </td>
+              </tr>
+              <tr>
+                <td>Knicks resurgen en la NBA</td>
+                <td>Deporte internacional</td>
+                <td>
+                  Los New York Knicks lograron una importante victoria tras
+                  varias derrotas, destacando también el gran rendimiento de
+                  Victor Wembanyama con 41 puntos.
+                </td>
+              </tr>
+              <tr>
+                <td>Ciclista español sufre grave accidente</td>
+                <td>Ciclismo</td>
+                <td>
+                  El deportista Jaume Guardeño se encuentra en estado crítico
+                  tras chocar con un auto mientras entrenaba en España.
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="negocios" class="seccion">
+        <div class="contenido-noticia">
+          <h2>Negocios</h2>
+          <div class="table-wrapper">
+            <table>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Artículo</th>
+              </tr>
+              <tr>
+                <td>Electrolux cierra fábrica en Chile</td>
+                <td>Economía</td>
+                <td>
+                  El cierre de la planta marcará el fin de la fabricación de
+                  electrodomésticos en el país, afectando al sector industrial.
+                </td>
+              </tr>
+              <tr>
+                <td>Falabella mejora su clasificación</td>
+                <td>Finanzas</td>
+                <td>
+                  La empresa logró recuperar el grado de inversión tras una
+                  mejora en su calificación crediticia internacional.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  De futbolista a emprendedor: hijo de Diana Bolocco crea app
+                </td>
+                <td>Emprendimiento</td>
+                <td>
+                  Pedro “Piru” Cisternas, hijo mayor de Diana Bolocco y Gonzalo
+                  Cisternas, cambió las canchas por el mundo del emprendimiento
+                  tecnológico. A sus 25 años, el exjugador de Trasandino de Los
+                  Andes es uno de los creadores de NutrIA, una aplicación que
+                  utiliza inteligencia artificial para analizar alimentos a
+                  partir de una fotografía.
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
